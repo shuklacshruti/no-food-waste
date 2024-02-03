@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
-
+// frontend/src/App.js
+import React from 'react';
+import Matches from './components/Matches';  // Import the Matches component
+import FindShelters from './components/FindShelters';
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Welcome to the React-Flask Integration Example.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <Matches />  
+      <FindShelters /> 
     </div>
   );
 }
