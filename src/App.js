@@ -4,10 +4,7 @@ import React from 'react';
 import './App.css'; // Assuming you have a CSS file for styling
 
 const App = () => {
-  const styles = {
-
-
-  }
+ 
   return (
     <div className="container">
       <div className="left-side">

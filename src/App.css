@@ -16,6 +16,7 @@
   flex: 1;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 h1{
@@ -28,6 +29,36 @@ div.buttons{
   margin-top: 40px;
 }
 button{
+  font-size: 32px;
   width: 300px;
   height: 80px;
+  border: 2px solid #AD392A;
+  border-radius: 8px;
+  background-color:#F5E7E0;
+}
+button:nth-child(1){
+  margin-right: 16px;
+  
+}
+
+/* Mobile View */
+@media (max-width: 700px) {
+  .container {
+    flex-direction: column;
+  }
+  .left-side{
+    flex: 1;
+  }
+  .right-side{
+    flex: 2;
+  }
+
+  button{
+    width: 200px;
+    height: 60px;
+    font-size: 24px
+  }
+  button:nth-child(1){
+    margin-right: 16px;
+  }
 }
