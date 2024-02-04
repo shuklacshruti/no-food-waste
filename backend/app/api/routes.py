@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app.services.match_service import find_matches
 from .. import db
-from app.models.models import FoodItem, Restaurant
+from app.models.models import FoodItem
 
 api = Blueprint('api', __name__)
 
@@ -19,25 +19,32 @@ def check_database():
         return jsonify({'message': 'Database connection failed'})
 
 # backend/app/api/routes.py
+from flask import Blueprint, jsonify, request
+# Ensure your imports are correct, especially if you've moved the find_matches logic
+from app.models.models import FoodItem  # Adjust this if the import path is incorrect
 
-# backend/app/api/routes.py
+api = Blueprint('api', __name__)
 
 @api.route('/find_matches', methods=['GET'])
 def get_find_matches():
     item_type = request.args.get('type', default="")
     item_location = request.args.get('location', default="")
-    
-    # Call the find_matches function to get the matches
-    matches = find_matches(item_type, item_location)
 
-    return jsonify([
+    # Query the FoodItem model directly based on the item_type and item_location
+    matches = FoodItem.query.filter_by(type=item_type, location=item_location).all()
+
+    # Prepare the data to be returned as JSON
+    results = [
         {
-            'id': match['id'],
-            'type': match['type'],
-            'location': match['location'],
-            'restaurantName': match['restaurantName']  # Use the correct attribute name
+            'id': match.id,
+            'type': match.type,
+            'location': match.location,
+            'sourceName': match.source_name  # Use source_name to represent restaurant or shelter name
         } for match in matches
-    ])
+    ]
+
+    return jsonify(results)
+
 
 
 

@@ -5,18 +5,21 @@ function Matches() {
     const [itemType, setItemType] = useState(""); // State for item type input
     const [itemLocation, setItemLocation] = useState(""); // State for item location input
 
-    // Function to handle fetching matches based on itemType and itemLocation
-    const fetchMatches = () => {
-        if (itemType && itemLocation) {
-            const queryParams = `type=${encodeURIComponent(itemType)}&location=${encodeURIComponent(itemLocation)}`;
-            fetch(`http://localhost:5000/api/find_matches?${queryParams}`)
-                .then(response => response.json())
-                .then(data => {
-                    setMatches(data);
-                })
-                .catch(error => console.error('Error fetching matches:', error));
-        }
-    };
+    // This goes inside your React component, e.g., Matches.js, within the fetchMatches function
+
+const fetchMatches = () => {
+    if (itemType && itemLocation) {
+        const queryParams = `type=${encodeURIComponent(itemType)}&location=${encodeURIComponent(itemLocation)}`;
+        // Update the fetch URL to include the '/api' prefix if your Flask routes are registered with it
+        fetch(`http://localhost:5000/api/find_matches?${queryParams}`)
+            .then(response => response.json())
+            .then(data => {
+                setMatches(data);
+            })
+            .catch(error => console.error('Error fetching matches:', error));
+    }
+};
+
 
     // useEffect hook to fetch matches when itemType or itemLocation changes
     useEffect(() => {
@@ -45,10 +48,9 @@ function Matches() {
                 <p>No matches found.</p>
             ) : (
                 <ul>
-                    {
-                    matches.map(match => (
+                    {matches.map(match => (
                         <li key={match.id}>
-                            {match.type} - {match.location} - Restaurant: {match.restaurantName}
+                            {match.type} - {match.location} - Source: {match.sourceName} 
                         </li>
                     ))}
                 </ul>

@@ -11,7 +11,7 @@ def create_app():
     db.init_app(app)
 
     # Import your database models here
-    from .models.models import FoodItem, Restaurant, Shelter
+    from .models.models import FoodItem
 
     # Register the Blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api')

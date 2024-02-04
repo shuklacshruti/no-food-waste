@@ -1,31 +1,18 @@
 from app.extensions import db
 
-# Association Table
-shelter_food_item_association = db.Table('shelter_food_item_association',
-    db.Column('shelter_id', db.Integer, db.ForeignKey('shelter.id'), primary_key=True),
-    db.Column('food_item_id', db.Integer, db.ForeignKey('food_item.id'), primary_key=True)
-)
-
-
 class FoodItem(db.Model):
     __tablename__ = 'food_item'
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(128), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
+    quantity = db.Column(db.Integer)  # Adjusted to allow for nullable if your CSV might have empty quantity values
     location = db.Column(db.String(128), nullable=False)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'))  # Add this line
-    restaurant = db.relationship('Restaurant', back_populates='food_items')
-class Restaurant(db.Model):
-    _tablename__ = 'restaurant'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128), nullable=False)
-    location = db.Column(db.String(128), nullable=False)
-    contact_info = db.Column(db.String(128))
-    food_items = db.relationship('FoodItem', back_populates='restaurant')
-class Shelter(db.Model):
-    __tablename__ = 'shelter'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128), nullable=False)
-    location = db.Column(db.String(128), nullable=False)
-    contact_info = db.Column(db.String(128))
-    interested_food_items = db.relationship('FoodItem', secondary=shelter_food_item_association, backref=db.backref('interested_shelters', lazy='dynamic'))
+    source = db.Column(db.String(128), nullable=False)  # To differentiate between 'Shelter' and 'Restaurant'
+    source_name = db.Column(db.String(128), nullable=False)  # The name of the shelter or restaurant
+
+# Example records in the FoodItem table:
+# 1, Vegetables, 10, New York, Restaurant, Good Eats
+# 2, Bread, 5, Chicago, Restaurant, Bread Basket
+# 3, Pizza, 8, Charlotte, Restaurant, Pizza Bob
+# 4, Vegetables, 20, New York, Shelter, Hope Shelter
+# 5, Bread, 15, Chicago, Shelter, Safe House
+# 6, Pizza, 12, Charlotte, Shelter, Food for All
